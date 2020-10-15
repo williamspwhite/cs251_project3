@@ -18,6 +18,7 @@ public class BST<Key extends Comparable<Key>, Value>
     //
     public void insert(Key key, Value val) 
     {
+        return;
 	    //TO BE IMPLEMENTED
     }
     
@@ -27,6 +28,7 @@ public class BST<Key extends Comparable<Key>, Value>
     //
     public Value get(Key key) 
     {
+        return null;
 	    //TO BE IMPLEMENTED
     }
 
@@ -65,6 +67,7 @@ public class BST<Key extends Comparable<Key>, Value>
     //
     public int height(Key key) 
     {
+        return 0;
 	    //TO BE IMPLEMENTED
     }
 
