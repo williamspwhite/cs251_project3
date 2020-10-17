@@ -25,16 +25,19 @@ public class SortGrid
     }
 
     public static void quickSort(int[][] thisGrid, int row, int low, int high) {
-        int pivot = thisGrid[row][0];
+        int pivot = thisGrid[row][high];
 
+        int lessThan = low;
+        int equal = low;
 
         for (int col = 1; col < thisGrid.length; col++) {
             if (thisGrid[row][col] < pivot) {
-
+                swap(row, lessThan, row, col);
+                lessThan++;
+                equal++;
             } else if (thisGrid[row][col] == pivot) {
-
-            } else {
-
+                swap(row, equal, row, col);
+                equal++;
             }
         }
 
