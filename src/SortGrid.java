@@ -24,13 +24,16 @@ public class SortGrid
         return compares;
     }
 
-    public static void quickSort(int[][] thisGrid, int row, int low, int high) {
+    public static void quick3WaySort(int[][] thisGrid, int row, int low, int high) {
+        if (low >= high) {
+            return;
+        }
         int pivot = thisGrid[row][high];
 
         int lessThan = low;
         int equal = low;
 
-        for (int col = 1; col < thisGrid.length; col++) {
+        for (int col = low; col <= high; col++) {
             if (thisGrid[row][col] < pivot) {
                 swap(row, lessThan, row, col);
                 lessThan++;
@@ -41,6 +44,10 @@ public class SortGrid
             }
         }
 
+        quick3WaySort(thisGrid, row, low, lessThan);
+        quick3WaySort(thisGrid, row, lessThan + 1, equal);
+        quick3WaySort(thisGrid, row, equal + 1, high);
+        return;
     }
     //  HELPER METHODS 
     // returns true if value at (r1, c1) is less
