@@ -7,10 +7,38 @@ public class SortGrid
     public static int sort(int[][] thisGrid) 
     {
         compares = 0;
+
+        int cols = thisGrid.length;
+        int rows = thisGrid[0].length;
+        System.out.println(thisGrid[0].length);
+        int[][] copyofThisGrid = new int[cols][rows];
+
+        for (int i = 0; i < cols; i++) {
+            for (int j = 0; j < rows; j++) {
+
+            }
+        }
+
+
         //TO BE IMPLEMENTED
         return compares;
     }
 
+    public static void quickSort(int[][] thisGrid, int row, int low, int high) {
+        int pivot = thisGrid[row][0];
+
+
+        for (int col = 1; col < thisGrid.length; col++) {
+            if (thisGrid[row][col] < pivot) {
+
+            } else if (thisGrid[row][col] == pivot) {
+
+            } else {
+
+            }
+        }
+
+    }
     //  HELPER METHODS 
     // returns true if value at (r1, c1) is less
     // than value at (r2, c2) and false otherwise;
