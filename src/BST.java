@@ -18,6 +18,14 @@ public class BST<Key extends Comparable<Key>, Value>
     //
     public void insert(Key key, Value val) 
     {
+        Node newNode = new Node(key, val);
+        if (isEmpty()) {
+            root = newNode;
+        } else {
+            while (true) {
+                break;
+            }
+        }
         return;
 	    //TO BE IMPLEMENTED
     }
