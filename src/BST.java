@@ -18,16 +18,61 @@ public class BST<Key extends Comparable<Key>, Value>
     //
     public void insert(Key key, Value val) 
     {
-        Node newNode = new Node(key, val);
         if (isEmpty()) {
-            root = newNode;
+            root = new Node(key, val);
+            N++;
+            return;
         } else {
+            int currentHeight = 0;
+            Node currentNode = root;
             while (true) {
-                break;
+                if (key.compareTo(currentNode.key) < 0) {
+                    currentHeight++;
+                    if (currentNode.left == null) {
+                        increaseHeight(key, currentHeight);
+
+                        currentNode.left = new Node(key, val);
+                        currentNode.left.height = 0;
+                        N++;
+
+                        System.out.println("-------------------------");
+                        System.out.println(toString());
+                        System.out.println("-------------------------");
+
+                        return;
+                    }
+
+                    currentNode = currentNode.left;
+
+                } else if (key.compareTo(currentNode.key) == 0) {
+                    currentNode.val = val;
+
+                    System.out.println("-------------------------");
+                    System.out.println(toString());
+                    System.out.println("-------------------------");
+
+                    return;
+                } else {
+                    currentHeight++;
+                    if (currentNode.right == null) {
+                        increaseHeight(key, currentHeight);
+
+                        currentNode.right = new Node(key, val);
+                        currentNode.right.height = 0;
+                        N++;
+
+                        System.out.println("-------------------------");
+                        System.out.println(toString());
+                        System.out.println("-------------------------");
+
+                        return;
+                    }
+                    currentNode = currentNode.right;
+                }
+
             }
         }
-        return;
-	    //TO BE IMPLEMENTED
+
     }
     
     //
@@ -36,8 +81,18 @@ public class BST<Key extends Comparable<Key>, Value>
     //
     public Value get(Key key) 
     {
-        return null;
-	    //TO BE IMPLEMENTED
+        Node currentNode = root;
+        while (true) {
+            if (currentNode == null) {
+                return null;
+            } else if (key.compareTo(currentNode.key) < 0) {
+                currentNode = currentNode.left;
+            } else if (key.compareTo(currentNode.key) == 0) {
+                return currentNode.val;
+            } else {
+                currentNode = currentNode.right;
+            }
+        }
     }
 
     //
@@ -75,7 +130,18 @@ public class BST<Key extends Comparable<Key>, Value>
     //
     public int height(Key key) 
     {
-        return 0;
+        Node currentNode = root;
+        while (true) {
+            if (currentNode == null) {
+                return -1;
+            } else if (key.compareTo(currentNode.key) < 0) {
+                currentNode = currentNode.left;
+            } else if (key.compareTo(currentNode.key) == 0) {
+                return currentNode.height;
+            } else {
+                currentNode = currentNode.right;
+            }
+        }
 	    //TO BE IMPLEMENTED
     }
 
@@ -116,9 +182,27 @@ public class BST<Key extends Comparable<Key>, Value>
         str += "\n";
         return str;
     }
-		
 
-    // PRIVATE METHODS 
+    public void increaseHeight(Key key, int height) {
+        Node currentNode = root;
+        while (true) {
+            if (currentNode == null) {
+                return;
+            } else if (key.compareTo(currentNode.key) < 0) {
+                if (currentNode.height < height) {
+                    currentNode.height = height;
+                }
+                currentNode = currentNode.left;
+            } else {
+                if (currentNode.height < height) {
+                    currentNode.height = height;
+                }
+                currentNode = currentNode.right;
+            }
+            height--;
+        }
+    }
+    // PRIVATE METHODS
 
     //
     // return the height of x

@@ -28,8 +28,18 @@ public class RLRBT<Key extends Comparable<Key>, Value>
     //
     public Value get(Key key) 
     {
-        return null;
-	    //COPY FROM BST
+        Node currentNode = root;
+        while (true) {
+            if (currentNode == null) {
+                return null;
+            } else if (key.compareTo(currentNode.key) < 0) {
+                currentNode = currentNode.left;
+            } else if (key.compareTo(currentNode.key) == 0) {
+                return currentNode.val;
+            } else {
+                currentNode = currentNode.right;
+            }
+        }
     }
 
     //
@@ -117,7 +127,7 @@ public class RLRBT<Key extends Comparable<Key>, Value>
         return 0;
 	    //TO BE IMPLEMENTED
     }
-		
+
     // PRIVATE METHODS 
 
     //
