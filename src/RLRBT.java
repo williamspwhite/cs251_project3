@@ -18,17 +18,19 @@ public class RLRBT<Key extends Comparable<Key>, Value>
     //
     public void insert(Key key, Value val) 
     {
-        N++;
-
         if (isEmpty()) {
-            root = new Node(key, val);
+            root = put(key, val, root);
             root.isRed = false;
             return;
         }
-        increaseHeight(key, depth(key));
 
         put(key, val, root);
-        increaseHeight(key, depth(key));
+        checkHeights(root);
+ //       System.out.println(toString());
+     //   System.out.println("\n");
+
+
+
         return;
     }
     
@@ -173,20 +175,20 @@ public class RLRBT<Key extends Comparable<Key>, Value>
             Node returnNode = new Node(key, val);
             returnNode.isRed = true;
             returnNode.height = 0;
+            N++;
             return returnNode;
         }
         if (key.compareTo(n.key) < 0) {
             n.left = put(key, val, n.left);
         } else if (key.compareTo(n.key) == 0) {
             n.val = val;
-            N--;
         } else {
             n.right = put(key, val, n.right);
         }
 
         if ((n.left != null) && n.left.isRed) {
             if (n.equals(root)) {
-                System.out.println("changing root");
+                //System.out.println("changing root");
                 n = rotateRight(n);
                 root = n;
                 root.isRed = false;
@@ -197,7 +199,7 @@ public class RLRBT<Key extends Comparable<Key>, Value>
         if (((n.right != null) && (n.right.right != null))
             && (n.right.isRed && n.right.right.isRed)) {
             if (n.equals(root)) {
-                System.out.println("changing root");
+                //System.out.println("changing root");
                 n = rotateLeft(n);
                 root = n;
                 root.isRed = false;
@@ -209,8 +211,18 @@ public class RLRBT<Key extends Comparable<Key>, Value>
                 (n.left.isRed && n.right.isRed)) {
             colorFlip(n);
         }
+
+
         root.isRed = false;
         return n;
+    }
+
+    private int checkHeights(Node node) {
+        if (node == null) {
+            return -1;
+        }
+        node.height = Math.max(checkHeights(node.left), checkHeights(node.right)) + 1;
+        return node.height;
     }
 
     private int depth(Key key) {
@@ -218,12 +230,27 @@ public class RLRBT<Key extends Comparable<Key>, Value>
         int depth = 0;
         while (true) {
             if (currentNode == null) {
+                //System.out.println("DEPTH 0F " + key + ": " + depth);
+                return depth;
+            } else if (key.compareTo(currentNode.key) == 0) {
+                if (currentNode.height == 1) {
+                    //System.out.println("RESULT OF LEFT ROTATE");
+                    if (currentNode.right != null) {
+                        if (currentNode.left != null) {
+                            currentNode.left.height = 0;
+                        }
+                        currentNode.right.height = 0;
+                        depth++;
+                    } else if (currentNode.left != null) {
+                        currentNode.left.height = 0;
+                        depth++;
+                    }
+                }
+                //System.out.println("DEPTH 0F " + key + ": " + depth);
+
                 return depth;
             } else if (key.compareTo(currentNode.key) < 0) {
                 currentNode = currentNode.left;
-
-            } else if (key.compareTo(currentNode.key) == 0) {
-                return depth;
             } else {
                 currentNode = currentNode.right;
             }

@@ -13,6 +13,7 @@ public class TreeSim
 
     public static void main(String[] args) 
 	{
+		args = new String[]{"treeSim.txt", "100"};
 		String input = args[0];
 		int count = Integer.parseInt(args[1]);
 		loadList(input);
