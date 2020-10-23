@@ -33,11 +33,11 @@ public class SortGrid
         /* prints sorted grid */
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                System.out.print("" + grid[row][col] + " ");
+                //System.out.print("" + grid[row][col] + " ");
             }
-            System.out.println();
+            //System.out.println();
         }
-        System.out.println("------------------------");
+        //System.out.println("------------------------");
 
         /* copy grid */
         int[][] copyofThisGrid = new int[cols][rows];

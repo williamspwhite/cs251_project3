@@ -26,45 +26,27 @@ public class BST<Key extends Comparable<Key>, Value>
             int currentHeight = 0;
             Node currentNode = root;
             while (true) {
+                currentHeight++;
                 if (key.compareTo(currentNode.key) < 0) {
-                    currentHeight++;
                     if (currentNode.left == null) {
                         increaseHeight(key, currentHeight);
-
                         currentNode.left = new Node(key, val);
                         currentNode.left.height = 0;
                         N++;
-
-                        System.out.println("-------------------------");
-                        System.out.println(toString());
-                        System.out.println("-------------------------");
-
                         return;
                     }
-
                     currentNode = currentNode.left;
 
                 } else if (key.compareTo(currentNode.key) == 0) {
                     currentNode.val = val;
 
-                    System.out.println("-------------------------");
-                    System.out.println(toString());
-                    System.out.println("-------------------------");
-
                     return;
                 } else {
-                    currentHeight++;
                     if (currentNode.right == null) {
                         increaseHeight(key, currentHeight);
-
                         currentNode.right = new Node(key, val);
                         currentNode.right.height = 0;
                         N++;
-
-                        System.out.println("-------------------------");
-                        System.out.println(toString());
-                        System.out.println("-------------------------");
-
                         return;
                     }
                     currentNode = currentNode.right;

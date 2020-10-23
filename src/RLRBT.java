@@ -18,8 +18,18 @@ public class RLRBT<Key extends Comparable<Key>, Value>
     //
     public void insert(Key key, Value val) 
     {
+        N++;
+
+        if (isEmpty()) {
+            root = new Node(key, val);
+            root.isRed = false;
+            return;
+        }
+        increaseHeight(key, depth(key));
+
+        put(key, val, root);
+        increaseHeight(key, depth(key));
         return;
-	    //TO BE IMPLEMENTED
     }
     
     //
@@ -77,8 +87,18 @@ public class RLRBT<Key extends Comparable<Key>, Value>
     //
     public int height(Key key) 
     {
-        return 0;
-	    //TO BE IMPLEMENTED
+        Node currentNode = root;
+        while (true) {
+            if (currentNode == null) {
+                return -1;
+            } else if (key.compareTo(currentNode.key) < 0) {
+                currentNode = currentNode.left;
+            } else if (key.compareTo(currentNode.key) == 0) {
+                return currentNode.height;
+            } else {
+                currentNode = currentNode.right;
+            }
+        }
     }
 
     //                                                                        
@@ -124,12 +144,92 @@ public class RLRBT<Key extends Comparable<Key>, Value>
     //
     public int blackHeight() 
     {
-        return 0;
-	    //TO BE IMPLEMENTED
+        if (isEmpty()) {
+            return 0;
+        }
+
+        int blackheight = 0;
+        Node currentNode = root;
+        while (currentNode != null) {
+            if (!currentNode.isRed) {
+                blackheight++;
+            }
+            if (currentNode.right == null) {
+                currentNode = currentNode.left;
+            } else if (currentNode.left == null) {
+                currentNode = currentNode.right;
+            } else if (currentNode.right.height > currentNode.left.height) {
+                currentNode = currentNode.right;
+            } else {
+                currentNode = currentNode.left;
+            }
+        }
+        return --blackheight;
     }
 
-    // PRIVATE METHODS 
+    // PRIVATE METHODS
+    private Node put(Key key, Value val, Node n) {
+        if (n == null) {
+            Node returnNode = new Node(key, val);
+            returnNode.isRed = true;
+            returnNode.height = 0;
+            return returnNode;
+        }
+        if (key.compareTo(n.key) < 0) {
+            n.left = put(key, val, n.left);
+        } else if (key.compareTo(n.key) == 0) {
+            n.val = val;
+            N--;
+        } else {
+            n.right = put(key, val, n.right);
+        }
 
+        if ((n.left != null) && n.left.isRed) {
+            if (n.equals(root)) {
+                System.out.println("changing root");
+                n = rotateRight(n);
+                root = n;
+                root.isRed = false;
+            } else {
+                n = rotateRight(n);
+            }
+        }
+        if (((n.right != null) && (n.right.right != null))
+            && (n.right.isRed && n.right.right.isRed)) {
+            if (n.equals(root)) {
+                System.out.println("changing root");
+                n = rotateLeft(n);
+                root = n;
+                root.isRed = false;
+            } else {
+                n = rotateLeft(n);
+            }
+        }
+        if (((n.left != null) && (n.right != null)) &&
+                (n.left.isRed && n.right.isRed)) {
+            colorFlip(n);
+        }
+        root.isRed = false;
+        return n;
+    }
+
+    private int depth(Key key) {
+        Node currentNode = root;
+        int depth = 0;
+        while (true) {
+            if (currentNode == null) {
+                return depth;
+            } else if (key.compareTo(currentNode.key) < 0) {
+                currentNode = currentNode.left;
+
+            } else if (key.compareTo(currentNode.key) == 0) {
+                return depth;
+            } else {
+                currentNode = currentNode.right;
+            }
+            depth++;
+        }
+    }
     //
     // swap colors of two Nodes
     //
@@ -141,6 +241,26 @@ public class RLRBT<Key extends Comparable<Key>, Value>
         boolean temp = x.isRed;
         x.isRed = y.isRed;
         y.isRed = temp;
+    }
+
+    private void increaseHeight(Key key, int height) {
+        Node currentNode = root;
+        while (true) {
+            if (currentNode == null) {
+                return;
+            } else if (key.compareTo(currentNode.key) < 0) {
+                if (currentNode.height < height) {
+                    currentNode.height = height;
+                }
+                currentNode = currentNode.left;
+            } else {
+                if (currentNode.height < height) {
+                    currentNode.height = height;
+                }
+                currentNode = currentNode.right;
+            }
+            height--;
+        }
     }
 
     //
